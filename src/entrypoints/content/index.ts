@@ -4,12 +4,12 @@ let contentScriptEntrypoint;
 
 if (import.meta.env.FIREFOX) {
   contentScriptEntrypoint = defineContentScript({
-    matches: ['https://notebooklm.google.com/*'],
+    matches: ['https://notebook.google.com/*'],
     main() {},
   });
 } else {
   contentScriptEntrypoint = defineContentScript({
-    matches: ['https://notebooklm.google.com/*'],
+    matches: ['https://notebook.google.com/*'],
     allFrames: true,
     main() {
       let footerContainer: Element | null;

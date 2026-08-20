@@ -20,7 +20,7 @@ export default defineConfig({
             'tabs',
             'clipboardWrite',
             'webNavigation',
-            'https://notebooklm.google.com/*',
+            'https://notebook.google.com/*',
             'https://*.usercontent.goog/*',
             'https://*.scf.usercontent.goog/*',
             '*://*.usercontent.goog/*',
@@ -40,7 +40,7 @@ export default defineConfig({
           }
         : {
             host_permissions: [
-              'https://notebooklm.google.com/*',
+              'https://notebook.google.com/*',
               'https://*.usercontent.goog/*',
             ],
           }),
