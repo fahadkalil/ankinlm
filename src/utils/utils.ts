@@ -76,3 +76,14 @@ export const createCsvBlob = (data: string): Blob | undefined => {
   const BOM = '\uFEFF'; // UTF-8
   return new Blob([BOM + csv], { type: 'text/csv;charset=utf-8' });
 };
+
+export const createJsonBlob = (data: string): Blob => {
+  let formatted = data;
+  try {
+    // reformata com indentação para ficar legível no arquivo baixado
+    formatted = JSON.stringify(JSON.parse(data), null, 2);
+  } catch {
+    // se por algum motivo não for JSON válido, salva como veio
+  }
+  return new Blob([formatted], { type: 'application/json;charset=utf-8' });
+};

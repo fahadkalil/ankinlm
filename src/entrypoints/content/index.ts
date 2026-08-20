@@ -1,4 +1,4 @@
-import { createCsvBlob, createStyledButton } from '@/utils/utils';
+import { createCsvBlob, createJsonBlob, createStyledButton } from '@/utils/utils';
 
 let contentScriptEntrypoint;
 
@@ -35,10 +35,10 @@ if (import.meta.env.FIREFOX) {
 
       observer.observe(document.body, { childList: true, subtree: true });
 
-      function handleDownload(url: string) {
+      function handleDownload(url: string, filename: string) {
         const link = document.createElement('a');
         link.href = url;
-        link.download = 'flashcards.csv';
+        link.download = filename;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -49,15 +49,20 @@ if (import.meta.env.FIREFOX) {
         const blob = createCsvBlob(data);
         if (!blob || !footerContainer) return;
 
-        const copyBtn = createStyledButton(footerContainer, 'Copy', 'copy_all');
+        const copyBtn = createStyledButton(footerContainer, 'Copy', 'content_copy');
         copyBtn.addEventListener('click', () => {
           navigator.clipboard.writeText(data);
         });
 
-        const url = URL.createObjectURL(blob);
-        const downloadBtn = createStyledButton(footerContainer, 'Download', 'save_alt');
+        const jsonBlob = createJsonBlob(data);
+        const jsonUrl = URL.createObjectURL(jsonBlob);
+        const jsonBtn = createStyledButton(footerContainer, 'Download', 'file_json');
+        jsonBtn.addEventListener('click', () => handleDownload(jsonUrl, 'questions.json'));
 
-        downloadBtn.addEventListener('click', () => handleDownload(url));
+        const url = URL.createObjectURL(blob);
+        const downloadBtn = createStyledButton(footerContainer, 'Download', 'csv');
+
+        downloadBtn.addEventListener('click', () => handleDownload(url, 'flashcards.csv'));
         const donateBtn = createStyledButton(footerContainer, '', 'coffee', [], ['padding: 0']);
 
         const coffeIcon = donateBtn.querySelector('mat-icon') as HTMLElement;
